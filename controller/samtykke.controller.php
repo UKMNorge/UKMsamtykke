@@ -13,7 +13,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		write_samtykke::lockProsjekt( $prosjekt );
 
 		// Meldingen som skal sendes
-		$melding = $_POST['melding-common'];
+		$melding = utf8_encode( $_POST['melding-common'] );
 		
 		// Lenker
 		$lenker = [];
@@ -29,8 +29,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					$prosjekt, 
 					$melding,
 					$lenker,
-					$_POST['fornavn-'. $i ],
-					$_POST['etternavn-'. $i ],
+					utf8_encode( $_POST['fornavn-'. $i ] ),
+					utf8_encode( $_POST['etternavn-'. $i ] ),
 					$_POST['mobil-'. $i ]
 				);
 				$mottakere[] = $mottaker;
