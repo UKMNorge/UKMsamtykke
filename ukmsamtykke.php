@@ -52,7 +52,7 @@ function UKMsamtykke_scripts_and_styles() {
 	wp_enqueue_style('UKMwp_dashboard_css');
 	wp_enqueue_script('WPbootstrap3_js');
 	wp_enqueue_style('WPbootstrap3_css');
-	wp_enqueue_style('UKMsamtykke_css', WP_PLUGIN_URL . '/UKMsamtykke/ukmsamtykke.css' );
-	wp_enqueue_script('UKMsamtykke_js', WP_PLUGIN_URL . '/UKMsamtykke/ukmsamtykke.js' );
+	wp_enqueue_style('UKMsamtykke_css', str_replace('http:','https:', WP_PLUGIN_URL) . '/UKMsamtykke/ukmsamtykke.css' );
+	wp_enqueue_script('UKMsamtykke_js', str_replace('http:','https:', WP_PLUGIN_URL) . '/UKMsamtykke/ukmsamtykke.js' );
 
 }
