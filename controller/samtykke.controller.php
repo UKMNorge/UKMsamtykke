@@ -82,10 +82,6 @@ if( isset( $_GET['samtykke'] ) ) {
 		while( $row = mysql_fetch_assoc( $res ) ) {
 			$requests[] = new samtykke_request( $row );
 		}
-		
-		$requests[0]->erGodkjent();
-		$requests[5]->erGodkjent();
-		
 		$TWIGdata['requests'] = $requests;
 	}
 }
