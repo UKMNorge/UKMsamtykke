@@ -43,7 +43,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				$sms->text( $mottaker->getMelding() )
 					->to( $mottaker->getMobil() )
 					->from('UKMNorge')
-					#->ok()
+					->ok()
 					;
 				$report = $sms->report();
 				if( is_numeric( $report ) ) {
@@ -52,9 +52,11 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					$mottaker->setAttr('sent', false );
 					$mottaker->setAttr('sendError', $report );
 				}
+				/*
 				echo '<h3>SMS-debug</h3>'.
 					'<b>TEXT: </b>'. $mottaker->getMelding() .' <br />'.
 					'<b>TO: </b>'. $mottaker->getMobil();
+				*/
 			}
 		}
 	}
