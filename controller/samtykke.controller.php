@@ -38,25 +38,27 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				$TWIGdata['mottakere'] = $mottakere;
 				
 				// SEND SMS
-				require_once('UKM/sms.class.php');
-				$sms = new SMS('samtykke', get_current_user_id() );
-				$sms->text( $mottaker->getMelding() )
-					->to( $mottaker->getMobil() )
-					->from('UKMNorge')
-					->ok()
-					;
-				$report = $sms->report();
-				if( is_numeric( $report ) ) {
+				if( UKM_HOSTNAME == 'ukm.dev' ) {
+					echo '<h3>SMS-debug</h3>'.
+						'<b>TEXT: </b>'. $mottaker->getMelding() .' <br />'.
+						'<b>TO: </b>'. $mottaker->getMobil();
 					$mottaker->setAttr('sent', true );
 				} else {
-					$mottaker->setAttr('sent', false );
-					$mottaker->setAttr('sendError', $report );
+					require_once('UKM/sms.class.php');
+					$sms = new SMS('samtykke', get_current_user_id() );
+					$sms->text( $mottaker->getMelding() )
+						->to( $mottaker->getMobil() )
+						->from('UKMNorge')
+						->ok()
+						;
+					$report = $sms->report();
+					if( is_numeric( $report ) ) {
+						$mottaker->setAttr('sent', true );
+					} else {
+						$mottaker->setAttr('sent', false );
+						$mottaker->setAttr('sendError', $report );
+					}
 				}
-				/*
-				echo '<h3>SMS-debug</h3>'.
-					'<b>TEXT: </b>'. $mottaker->getMelding() .' <br />'.
-					'<b>TO: </b>'. $mottaker->getMobil();
-				*/
 			}
 		}
 	}
