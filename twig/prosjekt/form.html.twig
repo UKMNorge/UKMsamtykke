@@ -1,0 +1,66 @@
+<div class="row" style="width:98%;">
+	<div class="col-12 col-sm-4 col-md-6">
+		<h1>{{ id == 'new' ? 'Opprett' : 'Rediger' }} prosjekt</h1>
+		
+		<p>
+			Du kan hente inn flere samtykker til samme prosjekt.
+			Prosjektet beskriver til hvilket formål ressursene (bilder, filmer, dokumenter) skal brukes,
+			og vil inngå som en sentral del av alles samtykke.
+		</p>
+		<p>
+			Når du henter inn samtykke fra enkeltpersoner oppgir du hvilke bilder/filmer/dokumenter
+			som vi innhenter samtykke for, og hvem som skal signere på det.
+		</p>
+		
+		{% if prosjekt.isLocked() %}
+			<div class="alert alert-warning">
+				Det er ikke mulig å redigere prosjektet, da innhenting av samtykke er begynt.
+			</div>
+		{% else %}
+			<form method="POST" action="?page={{ page }}&prosjekt={{ id }}&save=prosjekt">
+		{% endif %}
+			<input type="hidden" name="id" value="{{ id }}" />
+		
+			<div class="form-group">
+				<label for="tittel">Tittel</label>
+				<input type="text" class="form-control" id="tittel" name="tittel" value="{{ prosjekt.getTittel() }}" placeholder="Skriv tittel på prosjektet" />
+			</div>
+		
+			<div class="form-group">
+				<label for="setning">Samtykket oppsummert i 1 setning</label>
+				<input type="text" class="form-control" id="setning" name="setning" value="{{ prosjekt.getSetning() }}" placeholder="Skriv hva personen godtar" />
+				<small id="help-setning" class="form-text text-muted">F.eks: dele ut bilder av meg på MGPjr-finalen</small>
+			</div>
+		
+			<div class="form-group">
+				<label for="setning">Varighet</label>
+				<input type="text" class="form-control" id="varighet" name="varighet" value="{{ prosjekt.getVarighet() }}" placeholder="Skriv hva personen godtar" />
+				<small id="help-setning" class="form-text text-muted">F.eks: ett år fra i dag, 2017 og 2018</small>
+			</div>
+			
+		
+			<div class="form-group">
+				<label for="setning">Beskrivelse av samtykket</label>
+				<textarea class="form-control" id="beskrivelse" name="beskrivelse" rows="8">{{ prosjekt.getBeskrivelse() }}</textarea>
+				<small id="help-setning" class="form-text text-muted">Skriv detaljert om hva ressursene skal brukes til. Hold det kort, og forståelig for en 13-åring.</small>
+			</div>
+			
+			{% if not prosjekt.isLocked() %}
+					<button type="submit" class="btn btn-xs btn-primary">Lagre</button>
+				</form>
+			{% endif %}
+	</div>
+	<div class="col-12 col-sm-4">
+		<h3>Eksempel-samtykke</h3>
+		<p>
+			Jeg, <b>Marius Mandal (mobilnummer)</b>
+			gir UKM Norge tillatelse til å
+			<b>dele ut bilder av meg på MGPjr-finalen</b>.
+		</p>
+		<p>
+			Tillatelsen gjelder i <b>ett år fra i dag</b> for disse [bildene,filmene,dokumentene].
+		</p>
+
+		<button type="button" class="btn btn-xs btn-primary" disabled>Ja, dette er OK</button>
+	</div>
+</div>

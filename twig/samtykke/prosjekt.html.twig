@@ -1,0 +1,83 @@
+<div class="samtykke">
+	<h1>
+		Samtykke for {{ prosjekt.getTittel() }}
+		<small>
+			<a href="?page={{ page }}&prosjekt={{ prosjekt.getId() }}&samtykke=new" class="btn btn-success btn-xs">Etterspør samtykke</a>
+		</small>
+	</h1>
+	
+	{% if requests|length == 0 %}
+		<p>
+			Ingen samtykke-forespørsler sendt ut for {{ prosjekt.getTittel() }}
+		</p>
+	{% else %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th width="80">Ressurs</th>
+					<th width="*%">Navn</th>
+					<th width="430">Status</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for foresporsel in requests %}
+				<tr>
+					<td>
+						{% if foresporsel.getLenker()[0].type == 'bilde' %}
+							<img src="{{ foresporsel.getLenker()[0].url }}" height="40" />
+						{% endif %}
+					</td>
+					<td>
+						{{ foresporsel.getFornavn() ~' '~ foresporsel.getEtternavn() }}
+						{% if foresporsel.harSvart() %}
+							({{ foresporsel.getApproval().getAlder() }})
+						{% endif %}
+						<br />
+						<small>
+							{{ foresporsel.getMobil() }}
+						</small>
+					</td>
+					<td>
+						{% if foresporsel.erGodkjent %}
+							GODKJENT FOR BRUK
+							<br />
+							<small>
+								{% if foresporsel.getApproval().trengerForesatt() %}
+									<span class="label label-success">AV {{ foresporsel.getFornavn()|upper }}</span>
+									{{ foresporsel.getApproval().getTimestamp()|date('d.M.Y H:i:s') }}
+									@
+									{{ foresporsel.getApproval().getIP() }}
+									<br />
+									<span class="label label-success">AV {{ foresporsel.getApproval().getForesattNavn()|upper }}</span>
+									{{ foresporsel.getApproval().getForesattApproval().getTimestamp()|date('d.M.Y H:i:s') }}
+									@
+									{{ foresporsel.getApproval().getForesattApproval().getIP() }}
+								{% else %}
+									{{ foresporsel.getApproval().getTimestamp()|date('d.M.Y H:i:s') }}
+									@
+									{{ foresporsel.getApproval().getIP() }}
+								{% endif %}
+							</small>
+						{% else %}
+							<b class="alert-danger">IKKE GODKJENT FOR BRUK</b>
+							<br />
+							<small>
+								{% if foresporsel.harSvart() and foresporsel.getApproval().trengerForesatt() %}
+									<span class="label label-success">AV {{ foresporsel.getFornavn()|upper }}</span>
+									{{ foresporsel.getApproval().getTimestamp()|date('d.M.Y H:i:s') }}
+									@
+									{{ foresporsel.getApproval().getIP() }}
+									<br />
+									<span class="label label-important">AV {{ foresporsel.getApproval().getForesattNavn() is empty ? 'FORESATT' : foresporsel.getApproval().getForesattNavn()|upper }}</span> IKKE GODKJENT!
+								{% else %}
+									Etterspurt {{ foresporsel.getTimestamp()|date('d.M.Y H:i:s') }}
+								{% endif %}
+							</small>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+</div>

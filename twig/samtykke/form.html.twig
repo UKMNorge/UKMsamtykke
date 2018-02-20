@@ -1,0 +1,79 @@
+<div class="row" style="width:98%;">
+	<div class="col-12 col-sm-8 col-md-6">
+		<h1>Etterspør samtykke</h1>
+		
+		<p>
+			Når du henter inn samtykke fra enkeltpersoner oppgir du hvilke bilder/filmer/dokumenter
+			som vi innhenter samtykke for, og hvem som skal signere på det.
+		</p>
+		
+		<form method="POST" action="?page={{ page }}&prosjekt={{ prosjekt.getId() }}&samtykke=request">
+			<input type="hidden" name="id" value="{{ id }}" />
+			
+			<h3>Elementer du ønsker samtykke for</h3>
+			
+			<div class="row">
+				<div class="col-12 col-sm-4">
+					<div class="form-group">
+						<label for="type-1">Velg type</label>
+						<select class="form-control" id="type-1" name="type-1">
+							<option value="bilde" selected>Bilde</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-12 col-sm-8">
+					<div class="form-group">
+						<label for="url-1">Full URL til elementet</label>
+						<input type="url" class="form-control" id="url-1" name="url-1" required />
+					</div>
+				</div>
+			</div>
+			
+			<h3>Meldingen du vil sende ut</h3>
+			<p>
+				TIPS: $navn vil automatisk byttes ut med personens fornavn, og [lenke] vil automatisk byttes ut med riktig lenke
+			</p>
+
+			<div class="form-group">
+				<label for="navn">Meldingen som sendes ut</label>
+				<textarea class="form-control" id="melding" name="melding-common" rows="6" required>Hei $navn!
+UKM Norge ønsker å bruke elementer til {{ prosjekt.getTittel() }}, og trenger din godkjenning. Trykk her for mer info:
+[lenke]
+				</textarea>
+			</div>
+
+			<h3>Personene du ønsker samtykke fra</h3>
+			
+			{% for num in 1..10 %}
+				<div class="row" {{ num > 1 ? 'style="display:none"' }} id="person-{{ num }}">
+					<div class="col-12 col-sm-4">
+						<div class="form-group">
+							<label for="fornavn">Fornavn</label>
+							<input type="text" class="form-control" id="fornavn" name="fornavn-{{num}}" placeholder="Skriv fornavn" />
+						</div>
+					</div>
+					<div class="col-12 col-sm-4">
+						<div class="form-group">
+							<label for="etternavn">Etternavn</label>
+							<input type="text" class="form-control" id="etternavn" name="etternavn-{{num}}" placeholder="Skriv etternavn" />
+						</div>
+					</div>
+					<div class="col-12 col-sm-4">
+						<div class="form-group">
+							<label for="mobil">Mobil</label>
+							<input type="tel" class="form-control" id="mobil" name="mobil-{{num}}" placeholder="Kun siffer" />
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+			<div class="float-right pull-right">
+				<button type="button" data-count="1" id="showExtraPerson" class="btn btn-sm btn-small btn-primary">Legg til enda en person</button>
+			</div>
+			
+			<div class="clearfix"></div>
+			<p>&nbsp;</p>
+			<button type="submit" class="btn btn-xs btn-warning">Send forespørsler</button>
+		</form>
+	</div>
+	<div class="clearfix"></div>
+</div>

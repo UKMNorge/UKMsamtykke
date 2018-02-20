@@ -1,0 +1,20 @@
+<div class="samtykke">
+	<h1>
+		Status utsending av forespørsler
+	</h1>
+	
+	<ol class="list-group">
+		{% for mottaker in mottakere %}
+			<li class="list-group-item {{ mottaker.getAttr('sent') == false ? 'alert-danger' }}">
+				<div class="pull-right float-right">
+					{{ mottaker.getAttr('sent') == false ? mottaker.getAttr('sentError') : 'Sendt' }}
+				</div>
+				{{ mottaker.getFornavn() }}
+			</li>
+		{% else %}
+			<li class="list-group-item">Ingen samtykker sendt ut for {{ prosjekt.getTittel() }}</li>
+		{% endfor %}
+	</ol>
+	
+	<a href="?page={{ page }}&prosjekt={{ prosjekt.getId() }}&samtykke=list">Tilbake til {{ prosjekt.getTittel() }}</a>
+</div>

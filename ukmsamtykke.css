@@ -1,0 +1,13 @@
+.samtykke {
+	width: 98%;
+}
+
+.samtykke .icon {
+	width: 30px;
+	float: left;
+	margin-right: 5px;
+}
+
+.samtykke .action {
+	float:right;
+}
