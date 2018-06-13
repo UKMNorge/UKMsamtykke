@@ -8,12 +8,45 @@ Version: 0.1
 Author URI: http://mariusmandal.no
 */
 
-add_action('network_admin_menu', 'UKMsamtykke_menu');
+add_action('network_admin_menu', 'UKMsamtykke_network_menu');
+if( get_option('site_type') == 'land' ) {
+	add_action('UKM_admin_menu', 'UKMsamtykke_menu');
+}
 
-function UKMsamtykke_menu() {
+function UKMsamtykke_network_menu() {
 	$page = add_menu_page('UKM Norge Samtykke', 'Samtykke', 'superadmin', 'UKMsamtykke','UKMsamtykke', '//ico.ukm.no/check-menu.png',401);
 
 	add_action( 'admin_print_styles-' . $page, 'UKMsamtykke_scripts_and_styles' );
+}
+
+function UKMsamtykke_menu() {
+	$page = add_menu_page('UKM Norge Samtykke', 'Samtykke', 'administrator', 'UKMsamtykke_monstring','UKMsamtykke_monstring', '//ico.ukm.no/check-menu.png',401);
+}
+
+function UKMsamtykke_monstring() {
+	$TWIGdata = [
+		'page' => $_GET['page'],
+	];
+	
+	require_once('models/samtykke/kategori.class.php');
+	require_once('models/samtykke/timestamp.class.php');
+	require_once('models/samtykke/status.class.php');
+	require_once('models/samtykke/foresatt.class.php');
+	require_once('models/samtykke/person.class.php');
+	try {
+		if( isset( $_GET['action'] ) ) {
+			$VIEW = 'monstring/'. basename($_GET['action']);
+			require_once('controller/monstring/'. basename($_GET['action']) .'.controller.php');
+		}  else {
+			$VIEW = 'monstring/liste';
+		}
+		require_once('controller/monstring/liste.controller.php');
+	} catch( Exception $e  ) {
+		$TWIGdata['message'] = $e->getMessage();
+		$TWIGdata['code'] = $e->getCode();
+		$VIEW = 'exception';
+	}	
+	echo TWIG( $VIEW .'.html.twig', $TWIGdata, dirname(__FILE__), true);
 }
 
 

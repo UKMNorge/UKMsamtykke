@@ -1,0 +1,48 @@
+<h2>Samtykke fra deltakere</h2>
+
+{% if message is defined %}
+	<div class="clearfix"></div>
+	<div class="alert alert-{{ message.level }}">
+		{{ message.body }}
+		<br />
+		<small>{{ code }}</small>
+	</div>
+	<div class="clearfix"></div>
+{% endif %}
+
+{% for gruppe in samtykker %}
+	<h2>{{ gruppe.navn }}</h2>
+	<p class="lead">{{ gruppe.beskrivelse }}</p>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Person</th>
+				<th>Alder</th>
+				<th>Status</th>
+				<th>Handlinger</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			{% for person in gruppe.personer %}
+				<tr>
+					<td>{{ person.getNavn() }}</td>
+					<td>{{ person.getAlder() }}</td>
+					<td class="alert-{{ person.getStatus().getLevel() }}">{{ person.getStatus() }}</td>
+					<td>
+						{% if person.getStatus().getId() == 'ikke_sendt' %}
+							<a href="?page={{GET('page')}}&action=samtykke&id={{person.getId()}}" class="btn btn-success btn-sm btn-xs btn-mini">
+								Send samtykke-sms
+							</a>
+						{% endif %}
+						{% if person.getStatus().getId() in ['ikke_sett','ikke_svart'] %}
+							<a href="?page={{GET('page')}}&action=purring&id={{person.getId()}}" class="btn btn-success btn-sm btn-xs btn-mini">
+								Send purring
+							</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endfor %}
