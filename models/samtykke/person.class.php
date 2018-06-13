@@ -12,6 +12,8 @@ class samtykke_person {
 	var $foresatt = null;
 	var $last_change = null;
 	
+	var $updates = null;
+	
 	
 	public function __construct( $person, $year ) {
 		$this->person = $person;
@@ -64,6 +66,51 @@ class samtykke_person {
 	}
 	public function getLastChange() {
 		return $this->last_change;
+	}
+	
+	public function harForesatt() {
+		return $this->getForesatt()->har();
+	}
+	
+	
+	public function setStatus( $status, $ip ) {
+		$this->status = new samtykke_person_status( $status, new DateTime(), $ip );
+
+		$this->_update('status', $this->getStatus()->getId());
+		$this->_update('status_timestamp', $this->getStatus()->getTimestamp()->getForDatabase());
+		$this->_update('status_ip', $this->getStatus()->getIp());
+	}
+	
+	public function setForesattStatus( $status, $ip ) {
+		$this->getForesatt()->status = new samtykke_person_status( $status, new DateTime(), $ip );
+
+		$this->_update('foresatt_status', $this->getForesatt()->getStatus()->getId());
+		$this->_update('foresatt_status_timestamp', $this->getForesatt()->getStatus()->getTimestamp()->getForDatabase());
+		$this->_update('foresatt_status_ip', $this->getForesatt()->getStatus()->getIp());
+	}
+	
+	public function setForesatt( $navn, $mobil ) {
+		$this->foresatt = new samtykke_person_foresatt( $navn, $mobil, 'ikke_sendt', null, null );
+		
+		$this->_update('foresatt_navn', $navn);
+		$this->_update('foresatt_mobil', $mobil);
+	}
+	
+	private function _update( $key, $value ) {
+		$this->updates[ $key ] = $value;
+	}
+	
+	public function persist() {
+		if( !is_array( $this->updates ) ) {
+			throw new Exception('Kan ikke lagre ingen endringer til databasen. Oppdater objektet først');
+		}
+		$sql = new SQLins('samtykke_deltaker', ['id' => $this->getId()]);
+		foreach( $this->updates as $key => $value ) {
+			$sql->add( $key, $value );
+		}
+		$sql->run();
+		$this->updates = [];
+		echo $sql->debug();
 	}
 
 

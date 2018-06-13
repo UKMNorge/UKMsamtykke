@@ -19,4 +19,8 @@ class samtykke_person_foresatt {
 	public function getStatus() {
 		return $this->status;
 	}
+	
+	public function har() {
+		return null !== $this->navn && !empty( $this->navn );
+	}
 }

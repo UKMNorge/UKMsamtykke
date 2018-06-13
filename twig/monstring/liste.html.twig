@@ -26,18 +26,58 @@
 		<tbody>
 			{% for person in gruppe.personer %}
 				<tr>
-					<td>{{ person.getNavn() }}</td>
-					<td>{{ person.getAlder() }}</td>
-					<td class="alert-{{ person.getStatus().getLevel() }}">{{ person.getStatus() }}</td>
 					<td>
+						{{ person.getNavn() }}
+						{% if person.harForesatt() %}
+							<br />
+							<small>
+								Foresatt: {{ person.getForesatt().getNavn() }} ({{ person.getForesatt().getMobil() }})
+							</small>
+						{% endif %}
+					</td>
+					
+					
+					<td>{{ person.getAlder() }}</td>
+					
+					
+					{% if person.getKategori().getId() == 'u13' %}
+						<td class="alert-{{ person.getForesatt().getStatus().getLevel() }}">
+							Foresatt: {{ person.getForesatt().getStatus() }}
+							<br />
+							Deltaker: {{ person.getStatus() }}
+						</td>
+					{% elseif (person.getKategori().getId() == 'u15' and person.harForesatt()) or person.harForesatt() %}
+						<td class="alert-{{ person.getStatus().getLevel() }}">
+							Deltaker: {{ person.getStatus() }}
+							<br />
+							Foresatt: {{ person.getForesatt().getStatus() }}
+						</td>
+					{% else %}
+						<td class="alert-{{ person.getStatus().getLevel() }}">
+							{{ person.getStatus() }}
+						</td>
+					{% endif %}
+					
+					
+					<td>
+						{# Vi har aldri sendt sms til deltakeren #}
 						{% if person.getStatus().getId() == 'ikke_sendt' %}
 							<a href="?page={{GET('page')}}&action=samtykke&id={{person.getId()}}" class="btn btn-success btn-sm btn-xs btn-mini">
 								Send samtykke-sms
 							</a>
 						{% endif %}
-						{% if person.getStatus().getId() in ['ikke_sett','ikke_svart'] %}
-							<a href="?page={{GET('page')}}&action=purring&id={{person.getId()}}" class="btn btn-success btn-sm btn-xs btn-mini">
+
+						{# Deltaker har ikke trykket på lenken #}
+						{% if person.getStatus().getId() not in ['godkjent','ikke_godkjent','ikke_sendt'] %}
+							<a href="?page={{GET('page')}}&action=purring&id={{person.getId()}}" class="btn btn-primary btn-sm btn-xs btn-mini">
 								Send purring
+							</a>
+						{% endif %}
+						
+						{# Deltaker har sagt godkjent/ikke godkjent, men foresatte har ikke gjort noe #}
+						{% if person.getStatus().getId() in ['godkjent','ikke_godkjent'] and person.getForesatt().getStatus() not in ['godkjent','ikke_godkjent'] %}
+							<a href="?page={{GET('page')}}&action=purr_foresatt&id={{person.getId()}}" class="btn btn-primary btn-sm btn-xs btn-mini">
+								Send purring til foresatt
 							</a>
 						{% endif %}
 					</td>

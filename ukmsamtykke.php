@@ -8,6 +8,9 @@ Version: 0.1
 Author URI: http://mariusmandal.no
 */
 
+define('UKMSAMTYKKE_PLUGIN_PATH', rtrim( plugin_dir_path( __FILE__ ), '/' ).'/' );
+
+
 add_action('network_admin_menu', 'UKMsamtykke_network_menu');
 if( get_option('site_type') == 'land' ) {
 	add_action('UKM_admin_menu', 'UKMsamtykke_menu');
@@ -33,6 +36,9 @@ function UKMsamtykke_monstring() {
 	require_once('models/samtykke/status.class.php');
 	require_once('models/samtykke/foresatt.class.php');
 	require_once('models/samtykke/person.class.php');
+	require_once('models/samtykke/sms.class.php');
+	require_once('models/samtykke/sms_meldinger.class.php');
+	
 	try {
 		if( isset( $_GET['action'] ) ) {
 			$VIEW = 'monstring/'. basename($_GET['action']);
