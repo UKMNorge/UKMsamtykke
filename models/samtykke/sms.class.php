@@ -67,13 +67,11 @@ class samtykke_sms {
 	}
 	
 	public static function updateSamtykke( $samtykke, $melding_id ) {
-		echo '<h2>Update samtykke</h2>';
 		$samtykke->setStatus('ikke_sett', $_SERVER['HTTP_CF_CONNECTING_IP']);
 		$samtykke->persist();
 	}
 	
 	public static function updateForesattSamtykke( $samtykke, $melding_id ) {
-		echo '<h2>Update foresatt samtykke</h2>';
 		$samtykke->setForesattStatus('ikke_sett', $_SERVER['HTTP_CF_CONNECTING_IP']);
 		$samtykke->persist();
 	}

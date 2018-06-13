@@ -110,7 +110,6 @@ class samtykke_person {
 		}
 		$sql->run();
 		$this->updates = [];
-		echo $sql->debug();
 	}
 
 
