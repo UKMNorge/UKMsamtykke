@@ -6,7 +6,7 @@ class samtykke_person_status {
 	
 	public function __construct( $id, $timestamp, $ip ) {
 		$this->id = $id;
-		$this->timestamp = new samtykke_person_timestamp( $timestamp );
+		$this->timestamp = new samtykke_timestamp( $timestamp );
 		$this->ip = $ip;
 	}
 	
@@ -25,7 +25,7 @@ class samtykke_person_status {
 	public function getNavn() {
 		switch( $this->getId() ) {
 			case 'godkjent':
-				return 'Godkjent';
+				return 'Godtatt';
 			case 'ikke_godkjent':
 				return 'Ikke godtatt!';
 			case 'ikke_svart':

@@ -9,28 +9,45 @@ class samtykke_sms {
 		
 		self::insertMelding( $samtykke, $melding, $melding_id );
 		
-		if( $melding_id == 'samtykke_foresatt' ) {
+		if( strpos($melding_id, 'foresatt') !== false ) {
+			$mottaker = $samtykke->getForesatt()->getMobil();
 			self::updateForesattSamtykke( $samtykke, $melding_id );
 		} else {
+			$mottaker = $samtykke->getMobil();
 			self::updateSamtykke( $samtykke, $melding_id );
 		}
-		
-		return $melding ;
+		self::doSend( $mottaker, $melding );
+		return $melding;
+	}
+	
+	public static function doSend( $mottaker, $melding ) {
+		require_once('UKM/sms.class.php');
+		// TODO: IMPLEMENTER FAKTISK SENDING!
+		#$sms = new SMS('samtykke', 0);
+		#$sms->text($melding)->to($mottaker)->from('UKMNorge')->ok();
+
 	}
 	
 	public static function getMelding( $id, $samtykke ) {
 		$data = self::getBasicData( $samtykke );
+		$data['fornavn'] = $samtykke->getPerson()->getFornavn();
 		switch( $id ) {
 			case 'samtykke':
-				if( $samtykke->getKategori()->getId() == 'o15' ) {
+				if( $samtykke->getKategori()->getId() == '15o' ) {
 					return self::prepare( $data, samtykke_sms_samtykke::getMelding(), samtykke_sms_samtykke::getTemplateDefinition() );
 				}
 				return self::prepare( $data, samtykke_sms_samtykke_u15::getMelding(), samtykke_sms_samtykke_u15::getTemplateDefinition() );
 			break;
 			case 'samtykke_foresatt':
-				$data['fornavn'] = $samtykke->getPerson()->getFornavn();
-				$data['status'] = $samtykke->getStatus()->getId() == 'godkjent' ? 'er greit': 'ikke er greit';
+				if( $samtykke->getStatus()->getId() == 'godkjent' ) {
+					return self::prepare( $data, samtykke_sms_foresatt_godkjent::getMelding(), samtykke_sms_foresatt_godkjent::getTemplateDefinition());
+				}
 				return self::prepare( $data, samtykke_sms_foresatt::getMelding(), samtykke_sms_foresatt::getTemplateDefinition());
+			case 'purring':
+				return self::prepare( $data, samtykke_sms_purring::getMelding(), samtykke_sms_purring::getTemplateDefinition());
+			case 'purring_foresatt':
+				return self::prepare( $data, samtykke_sms_purring_foresatt::getMelding(), samtykke_sms_purring_foresatt::getTemplateDefinition());
+
 		}
 		
 		throw new Exception('Systemet støtter ikke meldingen `'. $id .'`');

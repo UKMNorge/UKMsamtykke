@@ -24,6 +24,7 @@ function UKMsamtykke_network_menu() {
 
 function UKMsamtykke_menu() {
 	$page = add_menu_page('UKM Norge Samtykke', 'Samtykke', 'administrator', 'UKMsamtykke_monstring','UKMsamtykke_monstring', '//ico.ukm.no/check-menu.png',401);
+	add_action( 'admin_print_styles-' . $page, 'UKMsamtykke_scripts_and_styles' );
 }
 
 function UKMsamtykke_monstring() {
@@ -38,6 +39,8 @@ function UKMsamtykke_monstring() {
 	require_once('models/samtykke/person.class.php');
 	require_once('models/samtykke/sms.class.php');
 	require_once('models/samtykke/sms_meldinger.class.php');
+	require_once('models/samtykke/kommunikasjon.collection.php');
+	require_once('models/samtykke/melding.class.php');
 	
 	try {
 		if( isset( $_GET['action'] ) ) {

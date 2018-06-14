@@ -13,9 +13,12 @@ class samtykke_person {
 	var $last_change = null;
 	
 	var $updates = null;
+	var $kommunikasjon = null;
 	
+	var $attr = null;
 	
 	public function __construct( $person, $year ) {
+		$this->attr = [];
 		$this->person = $person;
 		$row = $this->_createIfNotExists( $person, $year );
 		$this->_populate( $row );
@@ -38,6 +41,17 @@ class samtykke_person {
 		
 		$person = new person_v2( $row['p_id'] );
 		return new samtykke_person( $person, $row['year'] );
+	}
+	
+	public function setAttr( $key, $value ) {
+		$this->attr[ $key ] = $value;
+		return $this;
+	}
+	public function getAttr( $key ) {
+		if( isset( $this->attr[ $key ] ) ) {
+			return $this->attr[ $key ];
+		}
+		return false;
 	}
 	
 	public function getId() {
@@ -70,6 +84,13 @@ class samtykke_person {
 	
 	public function harForesatt() {
 		return $this->getForesatt()->har();
+	}
+	
+	public function getKommunikasjon() {
+		if( $this->kommunikasjon == null ) {
+			$this->kommunikasjon = new samtykke_kommunikasjon_collection( $this->getId() );
+		}
+		return $this->kommunikasjon;
 	}
 	
 	

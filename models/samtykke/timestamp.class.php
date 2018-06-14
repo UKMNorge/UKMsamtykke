@@ -1,9 +1,13 @@
 <?php
-class samtykke_person_timestamp {
+class samtykke_timestamp {
 	var $timestamp = null;
 
 	public function __construct( $timestamp ) {
-		$this->timestamp = $timestamp;
+		if( is_string( $timestamp ) ) {
+			$this->timestamp = DateTime::createFromFormat('Y-m-d H:i:s', $timestamp);
+		} else {
+			$this->timestamp = $timestamp;
+		}
 	}
 	
 	public function getForDatabase() {

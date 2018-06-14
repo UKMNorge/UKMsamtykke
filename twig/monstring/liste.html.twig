@@ -1,11 +1,19 @@
 <h2>Samtykke fra deltakere</h2>
 
+<a href="?page={{GET('page')}}&action=sendtoall" class="btn btn-warning">Send til alle som ikke har fått tidligere</a>
+
 {% if message is defined %}
 	<div class="clearfix"></div>
 	<div class="alert alert-{{ message.level }}">
-		{{ message.body }}
-		<br />
-		<small>{{ code }}</small>
+		{% if message.header is defined %}
+			<h4>{{ message.header|raw }}</h4>
+		{% endif %}
+		{{ message.body|raw }}
+		
+		{% if message.code is defined %}
+			<br />		
+			<small>{{ message.code }}</small>
+		{% endif %}
 	</div>
 	<div class="clearfix"></div>
 {% endif %}
@@ -41,20 +49,20 @@
 					
 					
 					{% if person.getKategori().getId() == 'u13' %}
-						<td class="alert-{{ person.getForesatt().getStatus().getLevel() }}">
-							Foresatt: {{ person.getForesatt().getStatus() }}
+						<td>
+							Foresatt: <i class="label label-{{ person.getForesatt().getStatus().getLevel() }}">{{ person.getForesatt().getStatus() }}</i>
 							<br />
-							Deltaker: {{ person.getStatus() }}
+							Deltaker: <i class="label label-{{ person.getStatus().getLevel() }}">{{ person.getStatus() }}</i>
 						</td>
 					{% elseif (person.getKategori().getId() == 'u15' and person.harForesatt()) or person.harForesatt() %}
-						<td class="alert-{{ person.getStatus().getLevel() }}">
-							Deltaker: {{ person.getStatus() }}
+						<td class="text-{{ person.getStatus().getLevel() }}">
+							Deltaker: <i class="label label-{{ person.getStatus().getLevel() }}">{{ person.getStatus() }}</i>
 							<br />
-							Foresatt: {{ person.getForesatt().getStatus() }}
+							Foresatt: <i class="label label-{{ person.getForesatt().getStatus().getLevel() }}">{{ person.getForesatt().getStatus() }}</i>
 						</td>
 					{% else %}
-						<td class="alert-{{ person.getStatus().getLevel() }}">
-							{{ person.getStatus() }}
+						<td class="tetx-{{ person.getStatus().getLevel() }}">
+							<i class="label label-{{ person.getStatus().getLevel() }}">{{ person.getStatus() }}</i>
 						</td>
 					{% endif %}
 					
@@ -72,13 +80,28 @@
 							<a href="?page={{GET('page')}}&action=purring&id={{person.getId()}}" class="btn btn-primary btn-sm btn-xs btn-mini">
 								Send purring
 							</a>
+							{% if person.getKommunikasjon().har('purring') %}
+								<br />
+								<small>
+									Purret {{ person.getPerson().getFornavn() }} 
+									{{ person.getKommunikasjon().get('purring').getTimestamp() }}
+								</small>
+							{% endif %}
 						{% endif %}
 						
 						{# Deltaker har sagt godkjent/ikke godkjent, men foresatte har ikke gjort noe #}
-						{% if person.getStatus().getId() in ['godkjent','ikke_godkjent'] and person.getForesatt().getStatus() not in ['godkjent','ikke_godkjent'] %}
-							<a href="?page={{GET('page')}}&action=purr_foresatt&id={{person.getId()}}" class="btn btn-primary btn-sm btn-xs btn-mini">
+						{% if person.getStatus().getId() in ['godkjent','ikke_godkjent'] and person.harForesatt() and person.getForesatt().getStatus().getId() not in ['godkjent','ikke_godkjent'] %}
+							<a href="?page={{GET('page')}}&action=purring&foresatt=true&id={{person.getId()}}" class="btn btn-primary btn-sm btn-xs btn-mini">
 								Send purring til foresatt
 							</a>
+							{% if person.getKommunikasjon().har('purring_foresatt') %}
+								<br />
+								<small>
+									Purret {{ person.getForesatt().getNavn() }} 
+									{{ person.getKommunikasjon().get('purring_foresatt').getTimestamp() }}
+								</small>
+							{% endif %}
+
 						{% endif %}
 					</td>
 				</tr>
