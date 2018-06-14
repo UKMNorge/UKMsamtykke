@@ -36,6 +36,7 @@
 				<tr>
 					<td>
 						{{ person.getNavn() }}
+						<small>({{ person.getPerson().getFylke() }})</small>
 						{% if person.harForesatt() %}
 							<br />
 							<small>

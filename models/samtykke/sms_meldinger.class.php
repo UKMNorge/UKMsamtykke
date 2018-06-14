@@ -38,7 +38,7 @@ class samtykke_sms_foresatt_godkjent extends samtykke_sms_foresatt {
 	public static function getMelding() {
 		return 'Hei! Om det ikke er ønskelig at vi tar bilder og/eller film av %navn på UKM-festivalen, '.
 			' må vi ha beskjed. %fornavn har selv sagt at det er greit. '.
-			'Les mer og svar på lenken nedenfor.'.
+			'Les mer og svar på lenken nedenfor. '.
 			samtykke_sms::LINK_FORESATT;
 	}
 
@@ -57,7 +57,7 @@ class samtykke_sms_foresatt {
 	
 	public static function getMelding() {
 		return 'Hei! %fornavn ønsker ikke å bli avbildet eller filmet på UKM-festivalen. Vi kan ikke garantere dette. '.
-			'Les mer og gi din respons på lenken nedenfor.'.
+			'Les mer og gi din respons på lenken nedenfor. '.
 			samtykke_sms::LINK_FORESATT;
 	}
 }
