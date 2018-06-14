@@ -22,9 +22,8 @@ class samtykke_sms {
 	
 	public static function doSend( $mottaker, $melding ) {
 		require_once('UKM/sms.class.php');
-		// TODO: IMPLEMENTER FAKTISK SENDING!
-		#$sms = new SMS('samtykke', 0);
-		#$sms->text($melding)->to($mottaker)->from('UKMNorge')->ok();
+		$sms = new SMS('samtykke', 0);
+		$sms->text($melding)->to($mottaker)->from('UKMNorge')->ok();
 
 	}
 	
