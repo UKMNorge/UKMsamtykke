@@ -83,7 +83,7 @@ if( isset( $_GET['samtykke'] ) ) {
 		$sql->charset('UTF-8');
 		$res = $sql->run();
 		$requests = [];
-		while( $row = mysql_fetch_assoc( $res ) ) {
+		while( $row = SQL::fetch( $res ) ) {
 			$requests[] = new samtykke_request( $row );
 		}
 		$TWIGdata['requests'] = $requests;

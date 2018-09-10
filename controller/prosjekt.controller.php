@@ -35,7 +35,7 @@ if( isset( $_GET['prosjekt'] ) ) {
 	$res = $sql->run();
 	
 	$prosjekter = [];
-	while( $row = mysql_fetch_assoc( $res ) ) {
+	while( $row = SQL::fetch( $res ) ) {
 		$prosjekter[] = new samtykke_prosjekt( $row );
 	}
 	

@@ -49,7 +49,7 @@ class samtykke_kommunikasjon_collection {
 		);
 		$res = $sql->run();
 		$this->meldinger = [];
-		while( $row = mysql_fetch_assoc( $res ) ) {
+		while( $row = SQL::fetch( $res ) ) {
 			$this->meldinger[] = new samtykke_melding( $row );
 		}
 	}
