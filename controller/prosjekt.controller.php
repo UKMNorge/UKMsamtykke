@@ -5,15 +5,15 @@ require_once('UKM/samtykke/prosjekt.class.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' && $_GET['save'] == 'prosjekt' ) {
 	if( $_GET['prosjekt'] == 'new' ) {
-		$prosjekt = write_samtykke::createProsjekt( utf8_encode( $_POST['tittel'] ) );
+		$prosjekt = write_samtykke::createProsjekt( $_POST['tittel'] );
 		$_GET['prosjekt'] = $prosjekt->getId();
 	} else {
 		$prosjekt = new samtykke_prosjekt( $_POST['id'] );
 	}
-	$prosjekt->setTittel( utf8_encode( $_POST['tittel'] ) );
-	$prosjekt->setSetning( utf8_encode( $_POST['setning'] ) );
-	$prosjekt->setVarighet( utf8_encode( $_POST['varighet'] ) );
-	$prosjekt->setBeskrivelse( utf8_encode( $_POST['beskrivelse'] ) );
+	$prosjekt->setTittel( $_POST['tittel'] );
+	$prosjekt->setSetning( $_POST['setning'] );
+	$prosjekt->setVarighet( $_POST['varighet'] );
+	$prosjekt->setBeskrivelse( $_POST['beskrivelse'] );
 	
 	write_samtykke::saveProsjekt( $prosjekt );
 
