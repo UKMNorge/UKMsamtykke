@@ -157,7 +157,7 @@ class samtykke_person {
 	private function _createIfNotExists( $person, $year ) {
 		$row = self::_load( $person, $year );
 		
-		if( !$res ) {
+		if( !$row ) {
 			$row = samtykke_person::create(
 				$person,
 				$year
@@ -193,8 +193,11 @@ class samtykke_person {
 #		$sql->add('status', 'ikke_sendt');
 		$sql->run();
 		
+try {	
 		$rad_id = $sql->insid();
-		
+} catch( Exception $e ) {
+ echo 'oops';
+}		
 		return self::_load( $person, $year );
 	}
 }
