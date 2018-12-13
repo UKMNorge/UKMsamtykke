@@ -1,22 +1,23 @@
 <?php
 
+use UKMNorge\Samtykke;
+
 require_once('UKM/samtykke/write.class.php');
 require_once('UKM/samtykke/prosjekt.class.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' && $_GET['save'] == 'prosjekt' ) {
 	if( $_GET['prosjekt'] == 'new' ) {
-		$prosjekt = write_samtykke::createProsjekt( utf8_encode( $_POST['tittel'] ) );
+		$prosjekt = Samtykke\Write::createProsjekt( utf8_encode( $_POST['tittel'] ) );
 		$_GET['prosjekt'] = $prosjekt->getId();
 	} else {
-		$prosjekt = new samtykke_prosjekt( $_POST['id'] );
+		$prosjekt = new Samtykke\Prosjekt( $_POST['id'] );
 	}
 	$prosjekt->setTittel( utf8_encode( $_POST['tittel'] ) );
 	$prosjekt->setSetning( utf8_encode( $_POST['setning'] ) );
 	$prosjekt->setVarighet( utf8_encode( $_POST['varighet'] ) );
 	$prosjekt->setBeskrivelse( utf8_encode( $_POST['beskrivelse'] ) );
 	
-	write_samtykke::saveProsjekt( $prosjekt );
-
+	Samtykke\Write::saveProsjekt( $prosjekt );
 }
 
 
@@ -24,7 +25,7 @@ if( isset( $_GET['prosjekt'] ) ) {
 	$TWIGdata['id'] = $_GET['prosjekt'];
 	
 	if( is_numeric( $_GET['prosjekt'] ) ) {
-		$TWIGdata['prosjekt'] = new samtykke_prosjekt( $_GET['prosjekt'] );
+		$TWIGdata['prosjekt'] = new Samtykke\Prosjekt( $_GET['prosjekt'] );
 	}
 } else {
 	$sql = new SQL("
@@ -36,7 +37,7 @@ if( isset( $_GET['prosjekt'] ) ) {
 	
 	$prosjekter = [];
 	while( $row = SQL::fetch( $res ) ) {
-		$prosjekter[] = new samtykke_prosjekt( $row );
+		$prosjekter[] = new Samtykke\Prosjekt( $row );
 	}
 	
 	$TWIGdata['prosjekter'] = $prosjekter;

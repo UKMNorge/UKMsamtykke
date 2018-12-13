@@ -1,5 +1,7 @@
 <?php
-	
+
+use UKMNorge\Samtykke;
+
 require_once('UKM/samtykke/write.class.php');
 require_once('UKM/samtykke/request.class.php');
 require_once('UKM/samtykke/prosjekt.class.php');
@@ -9,8 +11,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		$VIEW = 'samtykke/request';
 
 		// Sørg for at prosjektet er låst
-		$prosjekt = new samtykke_prosjekt( $_GET['prosjekt'] );
-		write_samtykke::lockProsjekt( $prosjekt );
+		$prosjekt = new Samtykke\Prosjekt( $_GET['prosjekt'] );
+		Samtykke\Write::lockProsjekt( $prosjekt );
 
 		// Meldingen som skal sendes
 		$melding = utf8_encode( $_POST['melding-common'] );
@@ -25,7 +27,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		$mottakere = [];
 		for( $i=1; $i<11; $i++ ) {
 			if( !empty( $_POST['fornavn-'. $i] ) && !empty( $_POST['mobil-'. $i ] ) ) {
-				$mottaker = write_samtykke::createRequest( 
+				$mottaker = Samtykke\Write::createRequest( 
 					$prosjekt, 
 					$melding,
 					$lenker,
@@ -84,7 +86,7 @@ if( isset( $_GET['samtykke'] ) ) {
 		$res = $sql->run();
 		$requests = [];
 		while( $row = SQL::fetch( $res ) ) {
-			$requests[] = new samtykke_request( $row );
+			$requests[] = new Samtykke\Request( $row );
 		}
 		$TWIGdata['requests'] = $requests;
 	}

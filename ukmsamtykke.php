@@ -32,15 +32,15 @@ function UKMsamtykke_monstring() {
 		'page' => $_GET['page'],
 	];
 	
-	require_once('models/samtykke/kategori.class.php');
-	require_once('models/samtykke/timestamp.class.php');
-	require_once('models/samtykke/status.class.php');
-	require_once('models/samtykke/foresatt.class.php');
-	require_once('models/samtykke/person.class.php');
-	require_once('models/samtykke/sms.class.php');
-	require_once('models/samtykke/sms_meldinger.class.php');
-	require_once('models/samtykke/kommunikasjon.collection.php');
-	require_once('models/samtykke/melding.class.php');
+	require_once('UKM/samtykke/personkategori.class.php');
+	require_once('UKM/samtykke/timestamp.class.php');
+	require_once('UKM/samtykke/status.class.php');
+	require_once('UKM/samtykke/foresatt.class.php');
+	require_once('UKM/samtykke/person.class.php');
+	require_once('UKM/samtykke/sms.class.php');
+	require_once('UKM/samtykke/sms_meldinger.class.php');
+	require_once('UKM/samtykke/kommunikasjon.collection.php');
+	require_once('UKM/samtykke/melding.class.php');
 	
 	try {
 		if( isset( $_GET['action'] ) ) {
