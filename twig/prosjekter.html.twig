@@ -2,7 +2,7 @@
 	<h1>
 		Prosjekter
 		<small>
-			<a href="?page={{ page }}&prosjekt=new" class="btn btn-success btn-xs">Opprett nytt</a>
+			<a href="?page={{ GET('page') }}&action=prosjekt&prosjekt=new" class="btn btn-success btn-xs">Opprett nytt</a>
 		</small>
 	</h1>
 	
@@ -10,12 +10,12 @@
 		{% for prosjekt in prosjekter %}
 			<li class="list-group-item">
 				<div class="action">
-					<a href="?page={{ page }}&prosjekt={{ prosjekt.getId() }}&samtykke=list" class="btn btn-xs btn-mini btn-primary">forespørsler</a>
+					<a href="?page={{ GET('page') }}&action=samtykker&prosjekt={{ prosjekt.getId() }}" class="btn btn-xs btn-mini btn-primary">forespørsler</a>
 				</div>
 				<div class="icon">
 					<img src="//ico.ukm.no/{{ prosjekt.isLocked() ? 'lock-256' : 'pencil-32' }}.png" height="17" />
 				</div>
-				<a href="?page={{page}}&prosjekt={{ prosjekt.getId() }}">{{ prosjekt.getTittel() }}</a>
+				<a href="?page={{ GET('page') }}&action=prosjekt&prosjekt={{ prosjekt.getId() }}">{{ prosjekt.getTittel() }}</a>
 
 			</li>
 		{% else %}

@@ -7,8 +7,8 @@
 			som vi innhenter samtykke for, og hvem som skal signere på det.
 		</p>
 		
-		<form method="POST" action="?page={{ page }}&prosjekt={{ prosjekt.getId() }}&samtykke=request">
-			<input type="hidden" name="id" value="{{ id }}" />
+		<form method="POST" action="?page={{ GET('page') }}&action=samtykkerequest&prosjekt={{ prosjekt.getId() }}">
+			<input type="hidden" name="id" value="{{ prosjekt.getId() }}" />
 			
 			<h3>Elementer du ønsker samtykke for</h3>
 			
