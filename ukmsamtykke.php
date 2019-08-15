@@ -17,13 +17,29 @@ if( get_option('site_type') == 'land' ) {
 }
 
 function UKMsamtykke_network_menu() {
-	$page = add_menu_page('UKM Norge Samtykke', 'Samtykke', 'superadmin', 'UKMsamtykke','UKMsamtykke', '//ico.ukm.no/check-menu.png',401);
+	$page = add_menu_page(
+        'UKM Norge Samtykke',
+        'Samtykke',
+        'superadmin',
+        'UKMsamtykke',
+        'UKMsamtykke',
+        'dashicons-welcome-view-site',//'//ico.ukm.no/check-menu.png',
+        401
+    );
 
 	add_action( 'admin_print_styles-' . $page, 'UKMsamtykke_scripts_and_styles' );
 }
 
 function UKMsamtykke_menu() {
-	$page = add_menu_page('UKM Norge Samtykke', 'Samtykke', 'administrator', 'UKMsamtykke_monstring','UKMsamtykke_monstring', '//ico.ukm.no/check-menu.png',401);
+	$page = add_menu_page(
+        'UKM Norge Samtykke',
+        'Samtykke',
+        'administrator',
+        'UKMsamtykke_monstring',
+        'UKMsamtykke_monstring',
+        'dashicons-welcome-view-site',// '//ico.ukm.no/check-menu.png',
+        401
+    );
 	add_action( 'admin_print_styles-' . $page, 'UKMsamtykke_scripts_and_styles' );
 }
 
