@@ -31,7 +31,7 @@ class UKMsamtykke extends UKMWPmodul {
             'superadmin', 
             'UKMsamtykke',
             ['UKMsamtykke','renderAdmin'], 
-            '//ico.ukm.no/check-menu.png',
+            'dashicons-welcome-view-site',
             401
         );
         add_action( 
@@ -53,29 +53,3 @@ class UKMsamtykke extends UKMWPmodul {
 ## HOOK MENU AND SCRIPTS
 UKMsamtykke::init( __DIR__ );
 UKMsamtykke::hook();
-
-
-/*
-	$TWIGdata = [
-		'page' => $_GET['page'],
-	];
-	
-	try {
-		require_once('controller/prosjekt.controller.php');
-		if( isset( $_GET['samtykke'] ) ) {
-			$VIEW = 'samtykke/prosjekt';
-			require_once('controller/samtykke.controller.php');
-		} elseif( isset( $_GET['prosjekt'] ) ) {
-			$VIEW = 'prosjekt/form';
-		} else {
-			$VIEW = 'prosjekt/liste';
-		}
-	} catch( Exception $e  ) {
-		$TWIGdata['message'] = $e->getMessage();
-		$TWIGdata['code'] = $e->getCode();
-		$VIEW = 'exception';
-	}
-	
-	echo TWIG( $VIEW .'.html.twig', $TWIGdata, dirname(__FILE__), true);
-}
-*/
