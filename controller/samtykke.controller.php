@@ -1,18 +1,22 @@
 <?php
 
 use UKMNorge\Samtykke;
+use UKMNorge\Samtykke\Prosjekt;
+use UKMNorge\Samtykke\Write;
+use SMS;
+use UKMNorge\Database\SQL\Query;
+use UKMNorge\Samtykke\Request;
 
-require_once('UKM/samtykke/write.class.php');
-require_once('UKM/samtykke/request.class.php');
-require_once('UKM/samtykke/prosjekt.class.php');
+require_once('UKM/Autoloader.php');
+require_once('UKM/sms.class.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	if( $_GET['samtykke'] == 'request' ) {
 		$VIEW = 'samtykke/request';
 
 		// Sørg for at prosjektet er låst
-		$prosjekt = new samtykke_prosjekt( $_GET['prosjekt'] );
-		write_samtykke::lockProsjekt( $prosjekt );
+		$prosjekt = new Prosjekt( $_GET['prosjekt'] );
+		Write::lockProsjekt( $prosjekt );
 
 		// Meldingen som skal sendes
 		$melding = $_POST['melding-common'];
@@ -27,7 +31,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		$mottakere = [];
 		for( $i=1; $i<11; $i++ ) {
 			if( !empty( $_POST['fornavn-'. $i] ) && !empty( $_POST['mobil-'. $i ] ) ) {
-				$mottaker = write_samtykke::createRequest( 
+				$mottaker = Write::createRequest( 
 					$prosjekt, 
 					$melding,
 					$lenker,
@@ -73,7 +77,7 @@ if( isset( $_GET['samtykke'] ) ) {
 	if( $_GET['samtykke'] == 'new' ) {
 		$VIEW = 'samtykke/form';
 	} else {
-		$sql = new SQL("
+		$sql = new Query("
 			SELECT * 
 			FROM `samtykke_request`
 			WHERE `prosjekt` = '#prosjekt'
@@ -85,12 +89,12 @@ if( isset( $_GET['samtykke'] ) ) {
 		$sql->charset('UTF-8');
 		$res = $sql->run();
 		$requests = [];
-		while( $row = SQL::fetch( $res ) ) {
-			$requests[] = new samtykke_request( $row );
+		while( $row = Query::fetch( $res ) ) {
+			$requests[] = new Request( $row );
 		}
 		$TWIGdata['requests'] = $requests;
 	}
 }
 
 UKMsamtykke::addViewData('id', $_GET['prosjekt']);
-UKMsamtykke::addViewData('prosjekt', new Samtykke\Prosjekt( $_GET['prosjekt'] ) );
+UKMsamtykke::addViewData('prosjekt', new Prosjekt( $_GET['prosjekt'] ) );

@@ -1,10 +1,11 @@
 <?php
-use UKMNorge\Samtykke;
 
-require_once('UKM/samtykke/write.class.php');
-require_once('UKM/samtykke/prosjekt.class.php');
+use UKMNorge\Database\SQL\Query;
+use UKMNorge\Samtykke\Prosjekt;
 
-$sql = new SQL("
+require_once('UKM/Autoloader.php');
+
+$sql = new Query("
     SELECT * 
     FROM `samtykke_prosjekt`
     ORDER BY `tittel` ASC"
@@ -13,7 +14,7 @@ $res = $sql->run();
 
 $prosjekter = [];
 while( $row = SQL::fetch( $res ) ) {
-    $prosjekter[] = new Samtykke\Prosjekt( $row );
+    $prosjekter[] = new Prosjekt( $row );
 }
 
 UKMsamtykke::addViewData('prosjekter', $prosjekter);

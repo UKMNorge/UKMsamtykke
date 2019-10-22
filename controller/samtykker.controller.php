@@ -1,12 +1,12 @@
 <?php
 
-use UKMNorge\Samtykke;
+use UKMNorge\Database\SQL\Query;
+use UKMNorge\Samtykke\Prosjekt;
+use UKMNorge\Samtykke\Request;
 
-require_once('UKM/samtykke/write.class.php');
-require_once('UKM/samtykke/request.class.php');
-require_once('UKM/samtykke/prosjekt.class.php');
+require_once('UKM/Autoloader.php');
 
-$sql = new SQL("
+$sql = new Query("
     SELECT * 
     FROM `samtykke_request`
     WHERE `prosjekt` = '#prosjekt'
@@ -17,8 +17,8 @@ $sql = new SQL("
 );
 $res = $sql->run();
 $requests = [];
-while( $row = SQL::fetch( $res ) ) {
-    $requests[] = new Samtykke\Request( $row );
+while( $row = Query::fetch( $res ) ) {
+    $requests[] = new Request( $row );
 }
 UKMsamtykke::addViewData('requests', $requests);
-UKMsamtykke::addViewData('prosjekt', new Samtykke\Prosjekt( $_GET['prosjekt'] ) );
+UKMsamtykke::addViewData('prosjekt', new Prosjekt( $_GET['prosjekt'] ) );

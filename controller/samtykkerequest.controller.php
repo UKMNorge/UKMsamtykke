@@ -1,17 +1,16 @@
 <?php
 
-use UKMNorge\Samtykke;
+use UKMNorge\Samtykke\Write;
+use UKMNorge\Samtykke\Prosjekt;
 
-require_once('UKM/samtykke/write.class.php');
-require_once('UKM/samtykke/request.class.php');
-require_once('UKM/samtykke/prosjekt.class.php');
+require_once('UKM/Autoloader.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     $VIEW = 'samtykke/request';
 
     // Sørg for at prosjektet er låst
-    $prosjekt = new Samtykke\Prosjekt( $_GET['prosjekt'] );
-    Samtykke\Write::lockProsjekt( $prosjekt );
+    $prosjekt = new Prosjekt( $_GET['prosjekt'] );
+    Write::lockProsjekt( $prosjekt );
 
     // Meldingen som skal sendes
     $melding = $_POST['melding-common'];
@@ -26,7 +25,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     $mottakere = [];
     for( $i=1; $i<11; $i++ ) {
         if( !empty( $_POST['fornavn-'. $i] ) && !empty( $_POST['mobil-'. $i ] ) ) {
-            $mottaker = Samtykke\Write::createRequest( 
+            $mottaker = Write::createRequest( 
                 $prosjekt, 
                 $melding,
                 $lenker,
@@ -64,4 +63,4 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     }
 }
 
-UKMsamtykke::addViewData('prosjekt', new Samtykke\Prosjekt( $_GET['prosjekt'] ) );
+UKMsamtykke::addViewData('prosjekt', new Prosjekt( $_GET['prosjekt'] ) );
