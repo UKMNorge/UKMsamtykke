@@ -17,7 +17,7 @@
 				Det er ikke mulig å redigere prosjektet, da innhenting av samtykke er begynt.
 			</div>
 		{% else %}
-			<form method="POST" action="?page={{ page }}&prosjekt={{ id }}&save=prosjekt">
+			<form method="POST" action="?page={{ GET('page') }}&action=prosjekt&prosjekt={{ id }}">
 		{% endif %}
 			<input type="hidden" name="id" value="{{ id }}" />
 		
