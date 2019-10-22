@@ -2,7 +2,7 @@
 	<h1>
 		Samtykke for {{ prosjekt.getTittel() }}
 		<small>
-			<a href="?page={{ page }}&prosjekt={{ prosjekt.getId() }}&samtykke=new" class="btn btn-success btn-xs">Etterspør samtykke</a>
+			<a href="?page={{ GET('page') }}&action=samtykke&prosjekt={{ prosjekt.getId() }}&samtykke=new" class="btn btn-success btn-xs">Etterspør samtykke</a>
 		</small>
 	</h1>
 	

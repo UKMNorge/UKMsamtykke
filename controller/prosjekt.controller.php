@@ -6,7 +6,7 @@ use UKMNorge\Samtykke\Write;
 
 require_once('UKM/Autoloader.php');
 
-if( $_SERVER['REQUEST_METHOD'] == 'POST' && $_GET['save'] == 'prosjekt' ) {
+if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	if( $_GET['prosjekt'] == 'new' ) {
 		$prosjekt = Write::createProsjekt( $_POST['tittel'] );
 		$_GET['prosjekt'] = $prosjekt->getId();
@@ -22,6 +22,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' && $_GET['save'] == 'prosjekt' ) {
 
 }
 
+UKMsamtykke::addViewData('id', $_GET['prosjekt']);
 
 if( isset( $_GET['prosjekt'] ) ) {
 	$TWIGdata['id'] = $_GET['prosjekt'];

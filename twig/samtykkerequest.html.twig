@@ -16,5 +16,5 @@
 		{% endfor %}
 	</ol>
 	
-	<a href="?page={{ page }}&prosjekt={{ prosjekt.getId() }}&samtykke=list">Tilbake til {{ prosjekt.getTittel() }}</a>
+	<a href="?page={{ GET('page') }}&action=samtykker&prosjekt={{ prosjekt.getId() }}">Tilbake til {{ prosjekt.getTittel() }}</a>
 </div>
