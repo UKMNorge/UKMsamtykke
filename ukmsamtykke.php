@@ -12,7 +12,7 @@ define('UKMSAMTYKKE_PLUGIN_PATH', rtrim( plugin_dir_path( __FILE__ ), '/' ).'/' 
 
 
 add_action('network_admin_menu', 'UKMsamtykke_network_menu');
-if( get_option('site_type') == 'land' ) {
+if( get_option('pl_eier_type') == 'land' ) {
 	add_action('UKM_admin_menu', 'UKMsamtykke_menu');
 }
 
