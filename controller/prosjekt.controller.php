@@ -25,10 +25,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 UKMsamtykke::addViewData('id', $_GET['prosjekt']);
 
 if( isset( $_GET['prosjekt'] ) ) {
-	$TWIGdata['id'] = $_GET['prosjekt'];
+    UKMsamtykke::addViewData('id',$_GET['prosjekt']);
 	
 	if( is_numeric( $_GET['prosjekt'] ) ) {
-		$TWIGdata['prosjekt'] = new Prosjekt( $_GET['prosjekt'] );
+		UKMsamtykke::addViewData('prosjekt', new Prosjekt( $_GET['prosjekt'] ));
 	}
 } else {
 	$sql = new Query("
@@ -43,5 +43,5 @@ if( isset( $_GET['prosjekt'] ) ) {
 		$prosjekter[] = new Prosjekt( $row );
 	}
 	
-	$TWIGdata['prosjekter'] = $prosjekter;
+	UKMsamtykke::addViewData('prosjekter',$prosjekter);
 }

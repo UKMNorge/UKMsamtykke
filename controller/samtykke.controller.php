@@ -41,7 +41,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				);
 				$mottakere[] = $mottaker;
 				
-				$TWIGdata['mottakere'] = $mottakere;
+				UKMsamtykke::addViewData('mottakere', $mottakere);
 				
 				// SEND SMS
 				if( UKM_HOSTNAME == 'ukm.dev' ) {
@@ -73,7 +73,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 
 if( isset( $_GET['samtykke'] ) ) {
-	$TWIGdata['id'] = $_GET['samtykke'];
+	#$TWIGdata['id'] = $_GET['samtykke'];
 	if( $_GET['samtykke'] == 'new' ) {
 		$VIEW = 'samtykke/form';
 	} else {
@@ -92,7 +92,7 @@ if( isset( $_GET['samtykke'] ) ) {
 		while( $row = Query::fetch( $res ) ) {
 			$requests[] = new Request( $row );
 		}
-		$TWIGdata['requests'] = $requests;
+		UKMsamtykke::addViewData('requests', $requests);
 	}
 }
 
