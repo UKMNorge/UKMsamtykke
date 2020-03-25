@@ -13,7 +13,7 @@ $sql = new Query("
 $res = $sql->run();
 
 $prosjekter = [];
-while( $row = SQL::fetch( $res ) ) {
+while( $row = Query::fetch( $res ) ) {
     $prosjekter[] = new Prosjekt( $row );
 }
 

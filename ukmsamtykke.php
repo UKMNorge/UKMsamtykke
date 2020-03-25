@@ -8,9 +8,11 @@ Version: 1.0
 Author URI: http://mariusmandal.no
 */
 
-require_once('UKM/wp_modul.class.php');
+use UKMNorge\Wordpress\Modul;
 
-class UKMsamtykke extends UKMWPmodul {
+require_once('UKM/Autoloader.php');
+
+class UKMsamtykke extends Modul {
     public static $action = 'prosjekter';
     public static $path_plugin = null;
 
