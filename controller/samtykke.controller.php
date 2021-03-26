@@ -26,7 +26,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		for( $i=1; $i<2; $i++) {
 			$url = $_POST['url-'.$i];
 			if( $_POST['type-'.$i] == 'bilde' && strrpos( $url, '?dl=0') && strrpos( $url, '?dl=0') == strlen($url)-5 ) {
-				$url = str_replace('?dl=0','?dl=1', $url);
+				$url = str_replace('?dl=0','?raw=1', $url);
+				#?raw=1 => https://www.dropboxforum.com/t5/Dropbox-files-folders/Hosted-photos-with-Safari-and-IE-11/m-p/250091/highlight/true#M94994
 			}
 			$lenker[] = [
 				'type'	=> $_POST['type-'.$i],
