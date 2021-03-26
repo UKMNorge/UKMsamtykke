@@ -31,13 +31,14 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		$mottakere = [];
 		for( $i=1; $i<11; $i++ ) {
 			if( !empty( $_POST['fornavn-'. $i] ) && !empty( $_POST['mobil-'. $i ] ) ) {
+				$mobilnummer = str_replace(' ','',$_POST['mobil-'. $i ]);
 				$mottaker = Write::createRequest( 
 					$prosjekt, 
 					$melding,
 					$lenker,
 					$_POST['fornavn-'. $i ],
 					$_POST['etternavn-'. $i ],
-					$_POST['mobil-'. $i ]
+					$mobilnummer
 				);
 				$mottakere[] = $mottaker;
 				
