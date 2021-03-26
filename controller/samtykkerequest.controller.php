@@ -17,21 +17,29 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     
     // Lenker
     $lenker = [];
-    $lenker[] = [
-        'type'	=> $_POST['type-1'],
-        'url'	=> $_POST['url-1'],
-    ];
+    // For hver lenke (når det en gang utvides..)
+    for( $i=1; $i<2; $i++) {
+        $url = $_POST['url-'.$i];
+        if( $_POST['type-'.$i] == 'bilde' && strrpos( $url, '?dl=0') && strrpos( $url, '?dl=0') == strlen($url)-5 ) {
+            $url = str_replace('?dl=0','?dl=1', $url);
+        }
+        $lenker[] = [
+            'type'	=> $_POST['type-'.$i],
+            'url'	=> $url,
+        ];
+    }
 
     $mottakere = [];
     for( $i=1; $i<11; $i++ ) {
         if( !empty( $_POST['fornavn-'. $i] ) && !empty( $_POST['mobil-'. $i ] ) ) {
+            $mobilnummer = str_replace(' ','',$_POST['mobil-'. $i ]);
             $mottaker = Write::createRequest( 
                 $prosjekt, 
                 $melding,
                 $lenker,
                 $_POST['fornavn-'. $i ],
                 $_POST['etternavn-'. $i ],
-                $_POST['mobil-'. $i ]
+                $mobilnummer
             );
             $mottakere[] = $mottaker;
             

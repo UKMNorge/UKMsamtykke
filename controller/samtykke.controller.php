@@ -3,7 +3,6 @@
 use UKMNorge\Samtykke;
 use UKMNorge\Samtykke\Prosjekt;
 use UKMNorge\Samtykke\Write;
-use SMS;
 use UKMNorge\Database\SQL\Query;
 use UKMNorge\Samtykke\Request;
 
@@ -23,10 +22,18 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		// Lenker
 		$lenker = [];
-		$lenker[] = [
-			'type'	=> $_POST['type-1'],
-			'url'	=> $_POST['url-1'],
-		];
+		// For hver lenke (når det en gang utvides..)
+		for( $i=1; $i<2; $i++) {
+			$url = $_POST['url-'.$i];
+			if( $_POST['type-'.$i] == 'bilde' && strrpos( $url, '?dl=0') && strrpos( $url, '?dl=0') == strlen($url)-5 ) {
+				$url = str_replace('?dl=0','?dl=1', $url);
+			}
+			$lenker[] = [
+				'type'	=> $_POST['type-'.$i],
+				'url'	=> $url,
+			];
+		}
+
 
 		$mottakere = [];
 		for( $i=1; $i<11; $i++ ) {
